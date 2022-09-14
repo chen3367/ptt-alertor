@@ -12,10 +12,29 @@ class Ptt(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
         self.boards = {} # Ex: self.boards = {'gamesale': Board('gamesale'), 'gossiping': Board('gossiping')}
+        self.channels = []
         self.fetch.start()
 
     def cog_unload(self):
         self.fetch.cancel()
+    
+    @commands.command(aliases = ['啟動'], description = '在目前頻道開啟Ptt Alertor')
+    async def start(self, ctx):
+        channel = ctx.channel
+        if channel in self.channels:
+            await ctx.send('頻道已在啟動清單中')
+        else:
+            self.channels.append(channel)
+            await ctx.send(f'成功加入啟動清單, channel name: {channel}')
+
+    @commands.command(aliases = ['關閉'], description = '關閉目前頻道的Ptt Alertor')
+    async def stop(self, ctx):
+        channel = ctx.channel
+        if channel not in self.channels:
+            await ctx.send('頻道不在啟動清單中')
+        else:
+            self.channels.remove(channel)
+            await ctx.send(f'成功移除啟動清單, channel name: {channel}')
 
     @commands.command(aliases = ['新增'], brief = '新增 <版名> <關鍵字>', description = '新增自動搜尋清單')
     async def add(self, ctx, name, keyword):
@@ -40,7 +59,7 @@ class Ptt(commands.Cog):
             await ctx.send(f'成功刪除清單(board: {name}, keyword: {keyword})')
     
     @commands.command(aliases = ['清單'], brief = '清單', description = '列出自動搜尋清單')
-    async def list(self, ctx):
+    async def list_(self, ctx):
         if not self.boards or all(not board.keywords for board in self.boards.values()):
             await ctx.send('目前沒有清單')
         else:
@@ -61,8 +80,8 @@ class Ptt(commands.Cog):
             titles, prices, urls = getthreadsbykeywords(new_threads, board)
             reply = formatted_reply(board.name, titles, prices, urls)
             if reply:
-                print(f'【成功】\n★看板：{name} 有新文章' + '\n' + reply)
-                # await ctx.send(f'★看板：{name} 有新文章' + '\n' + reply)
+                for channel in self.channels:
+                    await channel.send(f'★看板：{name} 有新文章' + '\n' + reply)
             board.index = get_index(board.name, 1)
             board.href = getlatesthref(url)
     
