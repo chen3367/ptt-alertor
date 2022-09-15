@@ -98,7 +98,6 @@ def getdatabyindex(index, board, keyword, titles, prices, urls):
     return getdatabyindex(str(int(index) + 1), board, keyword, titles, prices, urls)
 
 def getlatesthref(url):
-    print(f'【Getting latest href. url: {url}】')
     root = readurl(url)
     threads = root.find_all('div', class_ = 'r-ent')
     today_md = datetime.today().strftime('%m/%d').lstrip('0')
@@ -112,12 +111,9 @@ def getlatesthref(url):
         latest_thread = thread
     latest_title = latest_thread.find('div', class_ = 'title').a.text
     latest_href = latest_thread.a.get('href')
-    print(f'Latest title: {latest_title}')
-    print(f'Latest href: {latest_href}\n')
     return latest_href
 
 def getdataafterthread(url, href):
-    print(f'【Getting data after thread (url: {url}, href: {href})】')
     root = readurl(url)
     threads = root.find_all('div', class_ = 'r-ent')
 
@@ -128,14 +124,12 @@ def getdataafterthread(url, href):
 
     # Get new post (filter by href)
     new_threads = list(filter(lambda x: x.a['href'] > href if x.a else False, threads))
-    print(f'Successfully getting {len(new_threads)} threads\n')
     return new_threads
 
 def getthreadsbykeywords(threads, board: Board):
     """
     Get data by which meet the keywords
     """
-    print(f'【Getting threads by keywords (board: {board.name}, keywords: {board.keywords})】')
     titles, prices, urls = [], [], []
     for thread in threads:
         title = thread.find('div', class_ = 'title')
@@ -149,7 +143,6 @@ def getthreadsbykeywords(threads, board: Board):
             if board.name.lower() == 'gamesale':
                 price = '非販售文' if '售' not in title else getprice(href)
                 prices.append(price)
-    print(f'Successfully getting {len(titles)} threads by keywords\n')
     return titles, prices, urls
 
 def formatted_reply(board, titles, prices, urls):
@@ -168,6 +161,5 @@ def formatted_reply(board, titles, prices, urls):
 def getdata(board, keyword, n):
     reply = []
     index = get_index(board, n)
-    print(f"Start searching keyword '{keyword}' on board {board} in the latest {n} pages...")
     titles, prices, urls = getdatabyindex(index, board, keyword, [], [], [])
     return titles, prices, urls

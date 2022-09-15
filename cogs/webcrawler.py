@@ -81,6 +81,7 @@ class Ptt(commands.Cog):
             reply = formatted_reply(board.name, titles, prices, urls)
             if reply:
                 for channel in self.channels:
+                    print(f'★看板：{name} 有新文章' + '\n' + reply)
                     await channel.send(f'★看板：{name} 有新文章' + '\n' + reply)
             board.index = get_index(board.name, 1)
             board.href = getlatesthref(url)
