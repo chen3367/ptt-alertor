@@ -6,7 +6,7 @@ class General(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
-    @commands.command(description = 'Test whether the bot is alive')
+    @commands.command(hidden = True)
     async def ping(self, ctx):
         await ctx.send('pong')
     

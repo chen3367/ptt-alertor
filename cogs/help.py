@@ -6,7 +6,7 @@ class Help(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
-    @commands.command(description = 'Help command for Ptt Alertor')
+    @commands.command(description = '指令查詢')
     async def help(self, ctx):
         embed = nextcord.Embed(title = 'Ptt Alertor', description = 'Help command for Ptt Alertor')
         for command in self.bot.walk_commands():

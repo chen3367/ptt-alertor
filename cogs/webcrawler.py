@@ -85,7 +85,7 @@ class Ptt(commands.Cog):
         keywords = ', '.join(board.keywords)
         await ctx.send('\n'.join([f'Board: {board.name.capitalize()}', f'Index: {board.index}', f'href: {board.href}', f'keywords: {keywords}']))
 
-    @commands.command(brief = 'ptt <board> <keyword> <n_pages>', description = 'Retrieve titles and urls from ptt by keyword, default n_pages = 3')
+    @commands.command(brief = 'ptt <版名> <關鍵字> <頁數>', description = '手動搜尋文章(頁數預設三頁)')
     async def ptt(self, ctx, board, keyword, n = 3):
         await ctx.send(f'★看板：{board}；關鍵字：{keyword} 搜尋中...')
         titles, prices, urls = getdata(board, keyword, n)
