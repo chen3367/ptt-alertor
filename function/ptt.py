@@ -6,11 +6,11 @@ from datetime import timedelta
 from itertools import zip_longest
 
 class Board:
-    def __init__(self, name):
+    def __init__(self, name, keyword = ''):
         self.name = name
         self.index = get_index(self.name, 1)
-        self.href = getlatesthref(f'https://www.ptt.cc/bbs/{self.name}/index.html')
-        self.keywords = []
+        self.href = getlatestthread(f'https://www.ptt.cc/bbs/{self.name}/index.html')
+        self.keywords = [keyword] if keyword else []
 
 def get_index(board, n):
     """
@@ -97,7 +97,7 @@ def getdatabyindex(index, board, keyword, titles, prices, urls):
     # Direct to next page
     return getdatabyindex(str(int(index) + 1), board, keyword, titles, prices, urls)
 
-def getlatesthref(url):
+def getlatestthread(url):
     root = readurl(url)
     threads = root.find_all('div', class_ = 'r-ent')
     today_md = datetime.today().strftime('%m/%d').lstrip('0')
