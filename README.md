@@ -1,12 +1,11 @@
 # Ptt Alertor
-`!Ping`</br>
-Test whether the bot is alive
-
-`!ptt <board> <keyword> <n_pages>`</br>
-Retrieve titles and urls from ptt by keyword, default n_pages = 3
-
+## 指令
 `!help`</br>
-Help command for Ptt Alertor
+指令查詢
+
+`!ptt <版名> <關鍵字> <頁數>`</br>
+手動搜尋文章(頁數預設三頁)
+
 
 `!新增 <版名> <關鍵字>`</br>
 新增自動搜尋清單
@@ -16,3 +15,7 @@ Help command for Ptt Alertor
 
 `!清單`</br>
 列出自動搜尋清單
+
+---
+## Bot 邀請連結
+https://discord.com/api/oauth2/authorize?client_id=1010809888114475129&permissions=2048&scope=bot
