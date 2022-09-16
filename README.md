@@ -19,4 +19,5 @@
 
 ---
 ## Bot 邀請連結
+Permissions: Send Messages</br>
 https://discord.com/api/oauth2/authorize?client_id=1010809888114475129&permissions=2048&scope=bot
