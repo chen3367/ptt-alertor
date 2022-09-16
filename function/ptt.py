@@ -118,7 +118,7 @@ def getdataafterthread(url, href):
     threads = root.find_all('div', class_ = 'r-ent')
 
     # Recurrsivly retrieve new threads if the page is not the last page
-    while root.find('a', class_ = 'btn', text = '下頁 ›').get('href'):
+    while root.find('a', class_ = 'btn', text = '下頁 ›') and root.find('a', class_ = 'btn', text = '下頁 ›').get('href'):
         root = readurl('https://www.ptt.cc' + root.find('a', class_ = 'btn', text = '下頁 ›').get('href'))
         threads += root.find_all('div', class_ = 'r-ent')
 

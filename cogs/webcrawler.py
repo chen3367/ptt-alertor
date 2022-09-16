@@ -16,7 +16,7 @@ class Ptt(commands.Cog):
     def cog_unload(self):
         self.fetch.cancel()
 
-    @commands.command(aliases = ['新增'], brief = '新增 <版名> <關鍵字>', description = '新增自動搜尋清單')
+    @commands.command(brief = 'add <版名> <關鍵字>', description = '新增自動搜尋清單')
     async def add(self, ctx, name, keyword):
         channel = ctx.channel
         name, keyword = name.lower(), keyword.lower()
@@ -32,7 +32,7 @@ class Ptt(commands.Cog):
         else:
             await ctx.send(f'已在清單之中(board: {name}, keyword: {keyword})')
 
-    @commands.command(aliases = ['刪除'], brief = '刪除 <版名> <關鍵字>', description = '刪除自動搜尋清單')
+    @commands.command(brief = 'delete <版名> <關鍵字>', description = '刪除自動搜尋清單')
     async def delete(self, ctx, name, keyword):
         channel = ctx.channel
         name, keyword = name.lower(), keyword.lower()
@@ -48,8 +48,18 @@ class Ptt(commands.Cog):
             else:
                 self.channels[channel][name].keywords.remove(keyword)
             await ctx.send(f'已從清單刪除(board: {name}, keyword: {keyword})')
+
+    @commands.command(breif = 'deleteall <版名>', description = '刪除該版所有自動搜尋關鍵字')
+    async def deleteall(self, ctx, name):
+        channel = ctx.channel
+        name = name.lower()
+        if name not in self.channels[channel]:
+            await ctx.send(f'不在清單之中(board: {name})')
+        else:
+            del self.channels[channel][name]
+            await ctx.send(f'已從清單刪除(board: {name})')
             
-    @commands.command(aliases = ['清單'], brief = '清單', description = '列出自動搜尋清單')
+    @commands.command(aliases = ['list'], brief = 'list', description = '列出自動搜尋清單')
     async def list_(self, ctx):
         channel = ctx.channel
         if channel not in self.channels or not self.channels[channel]:
@@ -79,7 +89,7 @@ class Ptt(commands.Cog):
                 board.href = getlatestthread(url)
     
     @commands.command(hidden = True)
-    async def getboardinfo(self, ctx, name):
+    async def get(self, ctx, name):
         channel = ctx.channel
         board = self.channels[channel][name]
         keywords = ', '.join(board.keywords)
