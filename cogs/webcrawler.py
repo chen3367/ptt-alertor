@@ -32,8 +32,8 @@ class Ptt(commands.Cog):
         else:
             await ctx.send(f'已在清單之中(board: {name}, keyword: {keyword})')
 
-    @commands.command(brief = 'delete <版名> <關鍵字>', description = '刪除自動搜尋清單')
-    async def delete(self, ctx, name, keyword):
+    @commands.command(brief = 'remove <版名> <關鍵字>', description = '移除自動搜尋清單')
+    async def remove(self, ctx, name, keyword):
         channel = ctx.channel
         name, keyword = name.lower(), keyword.lower()
         if channel not in self.channels:
@@ -47,17 +47,17 @@ class Ptt(commands.Cog):
                 del self.channels[channel][name]
             else:
                 self.channels[channel][name].keywords.remove(keyword)
-            await ctx.send(f'已從清單刪除(board: {name}, keyword: {keyword})')
+            await ctx.send(f'已從清單移除(board: {name}, keyword: {keyword})')
 
-    @commands.command(breif = 'deleteall <版名>', description = '刪除該版所有自動搜尋關鍵字')
-    async def deleteall(self, ctx, name):
+    @commands.command(breif = 'removeall <版名>', description = '移除該版所有自動搜尋關鍵字')
+    async def removeall(self, ctx, name):
         channel = ctx.channel
         name = name.lower()
         if name not in self.channels[channel]:
             await ctx.send(f'不在清單之中(board: {name})')
         else:
             del self.channels[channel][name]
-            await ctx.send(f'已從清單刪除(board: {name})')
+            await ctx.send(f'已從清單移除(board: {name})')
             
     @commands.command(aliases = ['list'], brief = 'list', description = '列出自動搜尋清單')
     async def list_(self, ctx):
