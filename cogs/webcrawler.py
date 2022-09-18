@@ -81,7 +81,7 @@ class Ptt(commands.Cog):
                 new_threads = getdataafterthread(url, board.href)
 
                 titles, prices, urls = getthreadsbykeywords(new_threads, board)
-                reply = formatted_reply(board.name, titles, prices, urls)
+                reply = formatted_reply(titles, prices, urls)
                 if reply:
                     print(f'Channel: {channel.name}, 看板：{name.capitalize()} 有新文章' + '\n' + reply)
                     await channel.send(f'★看板：{name.capitalize()} 有新文章' + '\n' + reply)
@@ -99,7 +99,7 @@ class Ptt(commands.Cog):
     async def ptt(self, ctx, board, keyword, n = 3):
         await ctx.send(f'★看板：{board}；關鍵字：{keyword} 搜尋中...')
         titles, prices, urls = getdata(board, keyword, n)
-        reply = formatted_reply(board, titles, prices, urls)
+        reply = formatted_reply(titles, prices, urls)
 
         if not reply:
             print('No data found!')
